@@ -242,6 +242,11 @@ limitations under the License.
         picker.shape = 'huebox';
         progress.hidden = true;
 
+      var SERVICE_UUID =  '0000fff0-0000-1000-8000-00805f9b34fb';
+      var CHAR_UUID =    '0000fff3-0000-1000-8000-00805f9b34fb'
+      var SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+      var CHAR_UUID = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
+
         /**
          * Check if browser supports Web Bluetooth API.
          */
@@ -480,28 +485,31 @@ limitations under the License.
               navigator.bluetooth.requestDevice({
                 filters: [{
                   //namePrefix: 'Dotti',
-                  //services: ['0xfff0']
-                  ['0000fff0-0000-1000-8000-00805f9b34fb']
+                  services:
+                          //['0xfff0']
+                          [SERVICE_UUID]
                 }],
                 //optionalServices: ['0000fff0-0000-1000-8000-00805f9b34fb']
               })
-              .then(device => {
+              .then(function (device){
                 console.log('Connecting to GATT Server...');
                 return device.gatt.connect();
               })
-              .then(server => {
+              .then(function(server) {
                 console.log('> Found GATT server');
                 gattServer = server;
                 // Get command service
-                return gattServer.getPrimaryService('0xfff0');
+                //return gattServer.getPrimaryService('0xfff0');
+                return gattServer.getPrimaryService(SERVICE_UUID);
               })
-              .then(service => {
+              .then(function(service) {
                 console.log('> Found command service');
                 commandService = service;
                 // Get write characteristic
-                return commandService.getCharacteristic('0xfff3');
+                //return commandService.getCharacteristic('0xfff3');
+                return commandService.getCharacteristic(CHAR_UUID);
               })
-              .then(characteristic => {
+              .then( function (characteristic) {
                 console.log('> Found write characteristic');
                 writeCharacteristic = characteristic;
                 progress.hidden = true;

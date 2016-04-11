@@ -458,7 +458,7 @@ limitations under the License.
           console.log('Set LED color: ' + red + ', ' + green + ', ' + blue);
           let position = (row-1)*8 + column;
           let command = 0x0702;
-          let cmd = new Uint8Array([(command >> 8) & 0xff, command & 0xff, position, red, green, blue]);
+          let cmd = new Uint8Array([(command >> 8) & 0xff, command & 0xff, row, column, red, green, blue]);
 
           sendCommand(cmd).then(() => {
             console.log('LED color set.');
